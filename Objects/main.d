@@ -31,3 +31,4 @@
 .\objects\main.o: .\System\Delay.h
 .\objects\main.o: .\Hardware\LED.h
 .\objects\main.o: .\Hardware\KEY.h
+.\objects\main.o: .\Hardware\CountSensor.h
