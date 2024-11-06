@@ -15,4 +15,6 @@ void LED_0_REVERSE(void);
 
 void LED_1_REVERSE(void);
 
+uint32_t Led_Get(void);
+
 #endif

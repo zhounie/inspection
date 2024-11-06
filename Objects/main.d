@@ -32,3 +32,4 @@
 .\objects\main.o: .\Hardware\LED.h
 .\objects\main.o: .\Hardware\KEY.h
 .\objects\main.o: .\Hardware\CountSensor.h
+.\objects\main.o: .\Hardware\OLED.h
