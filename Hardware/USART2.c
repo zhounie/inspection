@@ -7,40 +7,40 @@ uint8_t Serial_RxFlag;
 uint8_t Serial_TxPacket[4];
 uint8_t Serial_RxPacket[4];
 
-void Serial_Init(void) {
+void USART2_Init(void) {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
 	
 		
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 	
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 	
 	
 	USART_InitTypeDef USART_InitStructure;
-	USART_InitStructure.USART_BaudRate = 9600;
+	USART_InitStructure.USART_BaudRate = 115200;
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
 	USART_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
 	USART_InitStructure.USART_Parity = USART_Parity_No;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-	USART_Init(USART1, &USART_InitStructure);
+	USART_Init(USART2, &USART_InitStructure);
 	
-	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	
 	NVIC_InitTypeDef NVIC_InitStructure;
-	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 3;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
 	NVIC_Init(&NVIC_InitStructure);
 	
 	USART_Cmd(USART1, ENABLE);
@@ -88,11 +88,11 @@ void Serial_SendNumber(uint32_t Number, uint8_t Length)
 	}
 }
 
-//int fputc(int ch, FILE *f)
-//{
-//	Serial_SendByte(ch);
-//	return ch;
-//}
+int fputc(int ch, FILE *f)
+{
+	Serial_SendByte(ch);
+	return ch;
+}
 
 void Serial_Printf(char *format, ...)
 {
@@ -120,32 +120,32 @@ uint8_t Serial_GetRxData(void)
 }
 
 
-//void USART1_IRQHandler(void)
-//{
-//	static uint8_t RxState = 0;
-//	static uint8_t pRxPacket = 0;
-//	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET) {
-//		uint8_t RxData = USART_ReceiveData(USART1);
-//		if (RxState == 0) {
-//			if (RxData == 0xFF) {
-//				RxState = 1;
-//				pRxPacket = 0;
-//			}
-//		} else if (RxState == 1) {
-//			Serial_RxPacket[pRxPacket] = RxData;
-//			pRxPacket++;
-//			if (pRxPacket >= 4) {
-//				RxState = 2;
-//			}
-//		} else if (RxState == 2) {
-//			if (RxData == 0xFE) {
-//				RxState = 0;
-//				Serial_RxFlag = 1;
-//			}
-//		}
-//		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
-//	}
-//}
+void USART2_IRQHandler(void)
+{
+	static uint8_t RxState = 0;
+	static uint8_t pRxPacket = 0;
+	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET) {
+		uint8_t RxData = USART_ReceiveData(USART1);
+		if (RxState == 0) {
+			if (RxData == 0xFF) {
+				RxState = 1;
+				pRxPacket = 0;
+			}
+		} else if (RxState == 1) {
+			Serial_RxPacket[pRxPacket] = RxData;
+			pRxPacket++;
+			if (pRxPacket >= 4) {
+				RxState = 2;
+			}
+		} else if (RxState == 2) {
+			if (RxData == 0xFE) {
+				RxState = 0;
+				Serial_RxFlag = 1;
+			}
+		}
+		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+	}
+}
 
 
 void Serial_SendPacket(void)

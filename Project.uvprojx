@@ -759,6 +759,46 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\Serial.h</FilePath>
             </File>
+            <File>
+              <FileName>Esp8266.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\Esp8266.c</FilePath>
+            </File>
+            <File>
+              <FileName>Esp8266.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\Esp8266.h</FilePath>
+            </File>
+            <File>
+              <FileName>TIMER.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\TIMER.c</FilePath>
+            </File>
+            <File>
+              <FileName>TIMER.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\TIMER.h</FilePath>
+            </File>
+            <File>
+              <FileName>USART3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\USART3.c</FilePath>
+            </File>
+            <File>
+              <FileName>USART3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\USART3.h</FilePath>
+            </File>
+            <File>
+              <FileName>USART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\USART.c</FilePath>
+            </File>
+            <File>
+              <FileName>USART.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\USART.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

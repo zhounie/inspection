@@ -1,6 +1,7 @@
 #ifndef __SERIAL_H
 #define __SERIAL_H
 
+#include <stdint.h>
 #include <stdio.h>
 
 extern uint8_t Serial_TxPacket[];
