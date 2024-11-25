@@ -28,6 +28,7 @@
 ".\objects\stm32f10x_usart.o"
 ".\objects\stm32f10x_wwdg.o"
 ".\objects\delay.o"
+".\objects\mydma.o"
 ".\objects\led.o"
 ".\objects\key.o"
 ".\objects\countsensor.o"
@@ -38,6 +39,10 @@
 ".\objects\timer.o"
 ".\objects\usart3.o"
 ".\objects\usart.o"
+".\objects\dht11.o"
+".\objects\buzzer.o"
+".\objects\fan.o"
+".\objects\ad.o"
 --library_type=microlib --strict --scatter ".\Objects\Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

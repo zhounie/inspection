@@ -67,7 +67,7 @@ void USART3_Printf(char *format, ...)
 	vsprintf((char*)USART3_TX_BUF, format, arg);
 	va_end(arg);
 	i = strlen((const char*)USART3_TX_BUF);
-	for(j = 0; j < i; i++){
+	for(j = 0; j < i; j++){
 		while(USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET);
 		USART_SendData(USART3, USART3_TX_BUF[j]); 
 	}

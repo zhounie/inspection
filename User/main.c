@@ -4,13 +4,48 @@
 #include "KEY.h"
 #include "CountSensor.h"
 #include "OLED.h"
-#include "Serial.h"
+// #include "Serial.h"
+#include "USART.h"
+#include "USART3.h"
+#include "ESP8266.h"
+#include "DHT11.h"
+#include "Buzzer.h"
+#include "Fan.h"
+#include "AD.h"
+#include <stdio.h>
+#include <math.h>
 
 uint8_t KeyNum;
 
 uint32_t LEDNum;
 
 uint8_t RxData;
+
+char str[20];
+
+uint8_t DHT_Buffer[5];
+
+uint8_t isOpenAlarm = 1;
+
+void checkAlarm (void)
+{
+	if (
+			DHT_Buffer[2] >= 30 ||
+			DHT_Buffer[0] >= 70 ||
+			AD_GetMq2() >= 20 ||
+			AD_GetLx() <= 30
+	) {
+			Buzzer_Solo2();
+			Open_Fan();
+			LED_1_ON();
+			Delay_ms(100);
+			LED_1_OFF();
+			Delay_ms(100);
+	} else {
+			Close_Fan();
+	}
+}
+
 
 int main(void) {
 	
@@ -20,52 +55,39 @@ int main(void) {
 	KEY_Init();
 	CountSensor_Init();
 	OLED_Init();
+	USART1_Init();
+	USART3_Init();
+	Buzzer_Init();
+	Fan_Init();
+	AD_Init();
 
-	Serial_Init();
+	Esp8266_START_TRANS();
+//	Esp8266_SEND_CMD("AT+MQTTPUB=0\,\"/device/set\"\,\"{\"deviceId\":\"dong1\"\,\"temp\": 43}\"\,0\,0", "OK", 50);
+//	Esp8266_STOP_TRANS();
 	
-	OLED_ShowString(1, 1, "TXPACKET");
-	
-	OLED_ShowString(3, 1, "RXPACKET");
-	
-	Serial_TxPacket[0] = 0x01;
-	Serial_TxPacket[1] = 0x02;
-	Serial_TxPacket[2] = 0x03;
-	Serial_TxPacket[3] = 0x04;
-//	Serial_SendPacket();
-//	
-//	Serial_SendByte(0x41);
-//	
-//	uint8_t MyArray[] = {0x41, 0x42, 0x44, 0x45};
-//	Serial_SendArray(MyArray, 4);
-//	
-//	Serial_SendString("Hellonima!\r\n");
-//	Serial_SendNumber(123456, 4);
-//	
-//	Serial_Printf("Num:%d\r\n", 666);
-//	
-//	OLED_ShowString(1, 1, "RxData:");
+
 	while(1){
-		KeyNum = KEY_GetNum();
-//		LEDNum = Led_Get();
-		if (KeyNum == 1) {
-			Serial_TxPacket[0]++;
-			Serial_TxPacket[1]++;
-			Serial_TxPacket[2]++;
-			Serial_TxPacket[3]++;
-			Serial_SendPacket();
-			OLED_ShowHexNum(2, 1, Serial_TxPacket[0], 2);
-			OLED_ShowHexNum(2, 4, Serial_TxPacket[1], 2);
-			OLED_ShowHexNum(2, 7, Serial_TxPacket[2], 2);
-			OLED_ShowHexNum(2, 10, Serial_TxPacket[3], 2);
-		}
-		if (Serial_GetRxFlag() == 1) {
-//			RxData = Serial_GetRxData();
-//			Serial_SendByte(RxData);
-			OLED_ShowHexNum(4, 1, Serial_RxPacket[0], 2);
-			OLED_ShowHexNum(4, 4, Serial_RxPacket[1], 2);
-			OLED_ShowHexNum(4, 7, Serial_RxPacket[2], 2);
-			OLED_ShowHexNum(4, 10, Serial_RxPacket[3], 2);
+		sprintf(str, "LUX: %.2f%%", AD_GetLx());
+		OLED_ShowString(1, 1, str);
+		sprintf(str, "PPM: %.2fppm", AD_GetMq2());
+		OLED_ShowString(2, 1, str);
+		
+//  OLED_ShowNum(3, 1, AD_GetLx(), 4);
+//	OLED_ShowNum(3, 6, AD_Value[1], 4);
+//	OLED_ShowNum(3, 11, AD_Value[2], 4);
+
+		if(DHT_Get_Temp_Humi_Data(DHT_Buffer))
+		{
+			
+			printf("Temp %d %d  Humi %d %d \r\n", DHT_Buffer[2], DHT_Buffer[3], DHT_Buffer[0] ,DHT_Buffer[1]);
+			sprintf(str, "Temp: %d %d", DHT_Buffer[2], DHT_Buffer[3]);
+			OLED_ShowString(3, 1, str);
+			sprintf(str, "Humi: %d %d", DHT_Buffer[0], DHT_Buffer[1]);
+			OLED_ShowString(4, 1, str);
 		}
 		
+		checkAlarm();
+		
+		Delay_ms(100);
 	}
 }

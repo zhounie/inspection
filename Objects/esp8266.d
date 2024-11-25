@@ -1,7 +1,7 @@
 .\objects\esp8266.o: Hardware\Esp8266.c
 .\objects\esp8266.o: .\Start\stm32f10x.h
 .\objects\esp8266.o: .\Start\core_cm3.h
-.\objects\esp8266.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+.\objects\esp8266.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\esp8266.o: .\Start\system_stm32f10x.h
 .\objects\esp8266.o: .\User\stm32f10x_conf.h
 .\objects\esp8266.o: .\Library\stm32f10x_adc.h
@@ -30,4 +30,7 @@
 .\objects\esp8266.o: .\Library\misc.h
 .\objects\esp8266.o: .\System\Delay.h
 .\objects\esp8266.o: Hardware\Esp8266.h
+.\objects\esp8266.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\esp8266.o: Hardware\USART.h
+.\objects\esp8266.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\esp8266.o: Hardware\USART3.h

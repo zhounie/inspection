@@ -1,6 +1,7 @@
 #ifndef __USART_H
 #define __USART_H	 
 
+#include <stdio.h>
 #include <stdint.h>
 
 #define USART_REC_LEN 200 //最大接收缓存字节数

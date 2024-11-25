@@ -1,7 +1,7 @@
 .\objects\usart3.o: Hardware\USART3.c
 .\objects\usart3.o: .\Start\stm32f10x.h
 .\objects\usart3.o: .\Start\core_cm3.h
-.\objects\usart3.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+.\objects\usart3.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\usart3.o: .\Start\system_stm32f10x.h
 .\objects\usart3.o: .\User\stm32f10x_conf.h
 .\objects\usart3.o: .\Library\stm32f10x_adc.h
@@ -30,6 +30,6 @@
 .\objects\usart3.o: .\Library\misc.h
 .\objects\usart3.o: Hardware\USART3.h
 .\objects\usart3.o: Hardware\TIMER.h
-.\objects\usart3.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
-.\objects\usart3.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdarg.h
-.\objects\usart3.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+.\objects\usart3.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\usart3.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\usart3.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
