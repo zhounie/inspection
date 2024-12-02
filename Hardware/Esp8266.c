@@ -4,8 +4,11 @@
 #include "USART.h"
 #include "USART3.h"
 
-void Esp8266_START_TRANS(void)
+void Esp8266_START_TRANS(uint16_t clientId)
 {
+	
+	char str[50];
+
 	Esp8266_SEND_CMD("AT+CWMODE=1", "OK", 50);
 
 	
@@ -25,11 +28,12 @@ void Esp8266_START_TRANS(void)
 	Esp8266_SEND_CMD("AT+CIPMODE=1", "OK", 200);
 	Delay_ms(2000);
 	
-	Esp8266_SEND_CMD("AT+MQTTUSERCFG=0\,1\,\"dong1\",\"user\",\"123456\"\,0\,0\,\"\"", "OK", 50);
+	sprintf(str, "AT+MQTTUSERCFG=0\,1\,\"%d\",\"user\",\"123456\"\,0\,0\,\"\"", clientId);
+	Esp8266_SEND_CMD(str, "OK", 50);
 		Delay_ms(2000);
-	Esp8266_SEND_CMD("AT+MQTTCONN=0\,\"192.168.31.14\"\,1883\,1", "OK", 50);
+	Esp8266_SEND_CMD("AT+MQTTCONN=0\,\"121.199.13.81\"\,1883\,1", "OK", 50);
 		Delay_ms(2000);
-	Esp8266_SEND_CMD("AT+MQTTPUB=0,\"/device/set\",\"{\"deviceId\":\"dong1\"\,\"temp\": 22}\",0,0", "OK", 50);
+		// Esp8266_SEND_CMD("AT+MQTTPUB=0,\"/device/set\",\"{\\\"deviceId\\\":15}\",0,0", "OK", 50);
 	
 	
 	

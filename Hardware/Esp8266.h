@@ -16,7 +16,7 @@
 
 uint8_t* Esp8266_CHECK_CMD(uint8_t *str);
 uint8_t Esp8266_SEND_CMD(uint8_t *cmd, uint8_t *ack, uint16_t waittime);
-void Esp8266_START_TRANS(void);
+void Esp8266_START_TRANS(uint16_t clientId);
 uint8_t Esp8266_STOP_TRANS(void);
 uint8_t* Esp8266_SEND_DATA(uint8_t *cmd, uint16_t waittime);
 
