@@ -13,7 +13,7 @@ void LED_Init(void) {
 	
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
 	
-	GPIO_SetBits(GPIOB, GPIO_Pin_0 | GPIO_Pin_1);
+	GPIO_ResetBits(GPIOB, GPIO_Pin_0 | GPIO_Pin_1);
 	
 
 	GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource0);
@@ -40,7 +40,7 @@ void LED_0_ON(void) {
 }
 
 void LED_1_ON(void) {
-	GPIO_ResetBits(GPIOB, GPIO_Pin_1);
+	GPIO_SetBits(GPIOB, GPIO_Pin_1);
 }
 
 void LED_0_OFF(void) {
@@ -48,7 +48,7 @@ void LED_0_OFF(void) {
 }
 
 void LED_1_OFF(void) {
-	GPIO_SetBits(GPIOB, GPIO_Pin_1);
+	GPIO_ResetBits(GPIOB, GPIO_Pin_1);
 }
 
 void LED_0_REVERSE(void) {

@@ -32,9 +32,9 @@ volatile uint16_t *uuid = ((__IO uint16_t *)(0x1FFFF7E8));
 void checkAlarm (void)
 {
 	if (AD_GetLx() <= 30) {
-		LED_0_ON();
+		LED_1_ON();
 	} else {
-		LED_0_OFF();
+		LED_1_OFF();
 	}
 	if (DHT_Buffer[2] >= 30 || 
 			DHT_Buffer[0] >= 70
@@ -47,9 +47,9 @@ void checkAlarm (void)
 			AD_GetMq2() >= 20
 	) {
 			Buzzer_Solo2();
-			LED_1_ON();
+			LED_0_ON();
 			Delay_ms(100);
-			LED_1_OFF();
+			LED_0_OFF();
 			Delay_ms(100);
 	}
 	sprintf(str, "AT+MQTTPUB=0,\"/device/set\",\"{\\\"uuid\\\":%d\\,\\\"temp\\\":%.2f\\,\\\"humi\\\":%.2f\\,\\\"mq2\\\":%.2f\\,\\\"lux\\\":%.2f}\",0,0",*uuid, ((float)DHT_Buffer[2] + (float)DHT_Buffer[3]/10), ((float)DHT_Buffer[0]+((float)DHT_Buffer[1]/10)), AD_GetMq2(),AD_GetLx());
@@ -70,9 +70,12 @@ int main(void) {
 	Buzzer_Init();
 	Fan_Init();
 	AD_Init();
+	OLED_ShowString(1, 1, "wifi connecting");
 
-
+	OLED_ShowNum(1, 1, *uuid, 5);
 	Esp8266_START_TRANS(*uuid);
+	OLED_ShowString(1, 1, "               ");
+
 //	Esp8266_SEND_CMD("AT+MQTTPUB=0\,\"/device/set\"\,\"{\"deviceId\":\"dong1\"\,\"temp\": 43}\"\,0\,0", "OK", 50);
 //	Esp8266_STOP_TRANS();
 	
@@ -83,9 +86,9 @@ int main(void) {
 		sprintf(str, "PPM: %.2fppm", AD_GetMq2());
 		OLED_ShowString(2, 1, str);
 		
-		if (KEY_GetNum() == 1) {
-				Esp8266_START_TRANS(*uuid);
-		}
+//		if (KEY_GetNum() == 1) {
+//				Esp8266_START_TRANS(*uuid);
+//		}
 		
 
 		if(DHT_Get_Temp_Humi_Data(DHT_Buffer))
