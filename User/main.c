@@ -27,7 +27,7 @@ uint8_t DHT_Buffer[5];
 
 uint8_t isOpenAlarm = 1;
 
-volatile uint16_t *uuid = ((__IO uint16_t *)(0x1FFFF7E8));
+volatile uint16_t *uuid = ((__IO uint16_t *)(0x1FFFF7EC));
 
 void checkAlarm (void)
 {
@@ -44,6 +44,7 @@ void checkAlarm (void)
 			Close_Fan();
 	}
 	if (
+			isOpenAlarm == 1 &&
 			AD_GetMq2() >= 20
 	) {
 			Buzzer_Solo2();
@@ -75,9 +76,6 @@ int main(void) {
 	OLED_ShowNum(1, 1, *uuid, 5);
 	Esp8266_START_TRANS(*uuid);
 	OLED_ShowString(1, 1, "               ");
-
-//	Esp8266_SEND_CMD("AT+MQTTPUB=0\,\"/device/set\"\,\"{\"deviceId\":\"dong1\"\,\"temp\": 43}\"\,0\,0", "OK", 50);
-//	Esp8266_STOP_TRANS();
 	
 
 	while(1){
@@ -86,9 +84,10 @@ int main(void) {
 		sprintf(str, "PPM: %.2fppm", AD_GetMq2());
 		OLED_ShowString(2, 1, str);
 		
-//		if (KEY_GetNum() == 1) {
-//				Esp8266_START_TRANS(*uuid);
-//		}
+		if (KEY_GetNum() == 1) {
+			isOpenAlarm = 0;
+			LED_0_OFF();
+		}
 		
 
 		if(DHT_Get_Temp_Humi_Data(DHT_Buffer))

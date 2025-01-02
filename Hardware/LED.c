@@ -36,7 +36,7 @@ void LED_Init(void) {
 }
 
 void LED_0_ON(void) {
-	GPIO_ResetBits(GPIOB, GPIO_Pin_0);
+	GPIO_SetBits(GPIOB, GPIO_Pin_0);
 }
 
 void LED_1_ON(void) {
@@ -44,7 +44,7 @@ void LED_1_ON(void) {
 }
 
 void LED_0_OFF(void) {
-	GPIO_SetBits(GPIOB, GPIO_Pin_0);
+	GPIO_ResetBits(GPIOB, GPIO_Pin_0);
 }
 
 void LED_1_OFF(void) {
